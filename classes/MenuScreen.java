@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 
 public class MenuScreen implements Screen {
 	
@@ -11,13 +12,15 @@ public class MenuScreen implements Screen {
 	
 	OrthographicCamera camera;
 	
+	private GlyphLayout layout;
+	
 	public MenuScreen(final Main game) {
 		this.game = game;
 
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 1600, 900);
 		
-		game.font.getData().setScale(2f);
+		layout = new GlyphLayout(game.mainFont, "Welcome to FryRain!");
 		
 	}
 	
@@ -30,10 +33,10 @@ public class MenuScreen implements Screen {
 		game.batch.setProjectionMatrix(camera.combined);
 
 		game.batch.begin();
-		game.font.draw(game.batch, "Welcome to FryRain!", 100, 250);
-		game.font.draw(game.batch, "Prevent the fries from falling on the ground!", 100, 200);
-		game.font.draw(game.batch, "Controls: Left Arrow Key is left. Right Arrow Key is right.", 100, 150);
-		game.font.draw(game.batch, "Click anywhere to begin!", 100, 100);
+		game.mainFont.draw(game.batch, layout, 1600/2-layout.width/2, 900/2+layout.height + 20);
+		game.font1.draw(game.batch, "Prevent the fries from falling on the ground!", 100, 200);
+		game.font1.draw(game.batch, "Controls: To move, use the left key, right key, or mouse. Space is a speed boost powerup.", 100, 150);
+		game.font1.draw(game.batch, "Click anywhere to begin!", 100, 100);
 		game.batch.end();
 
 		if (Gdx.input.isTouched()) {
