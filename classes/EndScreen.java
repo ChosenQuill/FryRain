@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 
 public class EndScreen implements Screen {
 	
@@ -13,6 +14,7 @@ public class EndScreen implements Screen {
 	static int highScore = 0;
 	String displayText;
 	Sound clapping;
+	private GlyphLayout layout;
 	
 	public EndScreen(final Main game){
 		this.game = game;
@@ -20,17 +22,20 @@ public class EndScreen implements Screen {
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 1600, 900);
 		
-		game.font.getData().setScale(2f);
-		
 		clapping = Gdx.audio.newSound(Gdx.files.internal("clapping.mp3"));
 		clapping.play();
 		
+		
 		if(highScore < GameScreen.score) {
-			displayText = "Congradulations, you now have a record of " + GameScreen.score + "! ";
-			if(highScore != 0)  displayText += "It's " + (GameScreen.score - highScore) + " better than your previous record!";
+			layout = new GlyphLayout(game.mainFont, "Congradulations!");
+			displayText = "You now have a record of " + GameScreen.score + "! It's " + (GameScreen.score - highScore) + " better than your previous record!";
 			highScore = GameScreen.score;
 			GameScreen.score = 0;
-		}  else {displayText = "You got a score of " + GameScreen.score + "! Well Done.";}
+		}  else {
+			layout = new GlyphLayout(game.mainFont, "Well Done!");
+			displayText = "You got a score of " + GameScreen.score + "!";
+			GameScreen.score = 0;
+		}
 	}
 	
 	//GameScreen.friesGathered;
@@ -43,8 +48,9 @@ public class EndScreen implements Screen {
 		game.batch.setProjectionMatrix(camera.combined);
 
 		game.batch.begin();
-		game.font.draw(game.batch, displayText, 100, 150);
-		game.font.draw(game.batch, "Click anywhere to restart!", 100, 100);
+		game.mainFont.draw(game.batch, layout, 1600/2-layout.width/2, 900/2+layout.height + 20);
+		game.font1.draw(game.batch, displayText, 100, 150);
+		game.font1.draw(game.batch, "Click anywhere to restart!", 100, 100);
 		game.batch.end();
 
 		if (Gdx.input.isTouched()) {

@@ -1,5 +1,6 @@
 package com.suredroid.fryrain;
 
+import java.text.DecimalFormat;
 import java.util.Iterator;
 
 import com.badlogic.gdx.Gdx;
@@ -27,14 +28,19 @@ public class GameScreen implements Screen {
 	Music backgroundMusic;
 	int lastSound;
 	
-	long startTime;
+	long timeLog;
+	final int activeSet = 2,cooldownSet = 5;
+	final double multiplierSet = 1.8;
 	Boolean powerUp = false;
+	String powerUpStatus;
+	private DecimalFormat df;
 	
 	Rectangle bucket;
 	Array<Rectangle> fries;
 	long lastDropTime;
 	public static int score;
-	int lives = 3, multiplier = 1;
+	int lives = 3;
+	double multiplier = 1;
 	final int speed = 600;
 	
 	public GameScreen(final Main game) {
@@ -77,9 +83,10 @@ public class GameScreen implements Screen {
 		fries = new Array<Rectangle>();
 		spawnFry();
 		
-		game.font.getData().setScale(1.5f);
+		timeLog = System.currentTimeMillis() - 1000*cooldownSet;
 		
-		startTime = System.currentTimeMillis();
+		powerUpStatus = "PowerUp [#008000]Available!";
+		df = new DecimalFormat("0.#");
 	}
 
 	@Override
@@ -104,8 +111,9 @@ public class GameScreen implements Screen {
 		      game.batch.draw(fryImage, fry.x, fry.y);
 		   }
 		game.batch.draw(grassImage,0,0);
-		game.font.draw(game.batch, "Fries Collected: " + score, 20, 900-20);
-		game.font.draw(game.batch, "Lives Left: " + lives, 1600-140, 900-20);
+		game.font2.draw(game.batch, "Fries Collected: " + score, 20, 900-20);
+		game.font2.draw(game.batch, powerUpStatus, 1600/2-60, 900 - 20);
+		game.font2.draw(game.batch, "Lives Left: " + lives, 1600-140, 900-20);
 		game.batch.end();
 		
 		
@@ -114,23 +122,34 @@ public class GameScreen implements Screen {
 		      Vector3 touchPos = new Vector3();
 		      touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 		      camera.unproject(touchPos);
-		      bucket.x = touchPos.x - 166 / 2;
+		      if(touchPos.x-bucket.x+bucket.width/2 > 0)
+		    	  bucket.x = bucket.x += speed * multiplier * Gdx.graphics.getDeltaTime();
+		      else if (touchPos.x-bucket.x+bucket.width/2 < 0)
+		    	  bucket.x -= speed * multiplier * Gdx.graphics.getDeltaTime();
 		   }
 		
-		//Power Up
-		
-		if(Gdx.input.isKeyPressed(Input.Keys.SPACE) && powerUp == false) {
-			powerUp = true;
-			startTime = System.currentTimeMillis();
+		//Powerup Stuff
+		if(powerUp == false && (System.currentTimeMillis() - timeLog) / 1000 >= cooldownSet) {
+
+		powerUpStatus = "PowerUp [#008000]Available!";
+			if(Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+				powerUp = true;
+				timeLog = System.currentTimeMillis();
+			}
+		} else if (powerUp == false) {
+			powerUpStatus = "PowerUp [#000080]CoolDown[WHITE]: " + df.format(Double.valueOf(cooldownSet)-((Long.valueOf(System.currentTimeMillis() - timeLog)).doubleValue() /1000));
 		}
 		
 		if(powerUp == true) {
-			multiplier = 3;
-			if (System.currentTimeMillis() - startTime / 1000 >= 5) {
-			multiplier = 1;
+			multiplier = multiplierSet;
+			powerUpStatus = "PowerUp [#8b0000]Active[WHITE]: " + df.format(Double.valueOf(activeSet)-((Long.valueOf(System.currentTimeMillis() - timeLog)).doubleValue() /1000));
+			if ((System.currentTimeMillis() - timeLog) / 1000 >= activeSet) {
+				multiplier = 1;
+				powerUp = false;
+				timeLog = System.currentTimeMillis();
 			}
 		}
-		
+
 		//Keyboard Movement
 		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) bucket.x -= speed * multiplier * Gdx.graphics.getDeltaTime();
 		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) bucket.x += speed * multiplier * Gdx.graphics.getDeltaTime();
