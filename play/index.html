@@ -1,19 +1,52 @@
 <!doctype html>
-<html>
-       <head>
-              <title>FryRain</title>
-              <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-              <link href="../assets/css/styles.css" rel="stylesheet" type="text/css">
-              <script src="../assets/js/soundmanager2-setup.js"></script>
-  			  <script src="../assets/js/soundmanager2-jsmin.js"></script>
-       </head>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="FryRain - Fries are falling from the sky and you have to eat as much as you can!">
+    <meta name="author" content="SureDroid">
+      
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <script src="../assets/js/soundmanager2-setup.js"></script>
+    <script src="../assets/js/soundmanager2-jsmin.js"></script>
+    <link href="styles.css" rel="stylesheet" type="text/css">
+    <link rel="icon" href="../favicon.ico">
 
-       <body>
-              <div align="center" id="embed-html"></div>
-              <script type="text/javascript" src="html/html.nocache.js"></script>
-       </body>
+    <title>FryRain - SureDroid</title>
+    
+    <!-- Bootstrap core CSS -->
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
 
-       <script>
+    <!-- Custom styles for this template
+    <link href="navbar.css" rel="stylesheet">
+    -->
+  </head>
+    
+    <body>
+        
+    <nav class="navbar navbar-expand navbar-dark bg-dark">
+      <a class="navbar-brand" href="https://www.suredroid.com">SureDroid</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarsExample02">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+            <a class="nav-link" href="http://fryrain.suredroid.com">Back <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://github.com/SureDroid/FileShare/raw/master/FryRain.jar">Download</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+        
+        <br/><br/><br/><br/>
+        <!-- Game Code Starts -->
+        <div align="center" id="embed-html"></div>
+        <script type="text/javascript" src="html/html.nocache.js"></script>
+         <script>
               function handleMouseDown(evt) {
                 evt.preventDefault();
                 evt.stopPropagation();
@@ -29,4 +62,12 @@
               document.getElementById('embed-html').addEventListener('mousedown', handleMouseDown, false);
               document.getElementById('embed-html').addEventListener('mouseup', handleMouseUp, false);
        </script>
+        
+        <!-- Game Code Ends -->
+        
+         <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../assets/js/bootstrap.min.js"></script>
+  </body>
 </html>
