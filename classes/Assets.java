@@ -32,11 +32,10 @@ public class Assets {
 
 	
 	public static final AssetDescriptor<Music> music = new AssetDescriptor<Music>("audio/game-music.mp3",Music.class);
-			
-			
-			
 	
 	public static void load() {
+		//Sets the AssetManager. (important for android to automatically reload textures when app is recreated)
+		Texture.setAssetManager(manager);
 		
 		//Loads Fonts
 		manager.load(mainFont);

@@ -9,11 +9,9 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.title = "FryRain - SureDroid";
-		//config.width = 1600;
-		//config.height = 900;
-		config.width = getWidth(-1);
-		config.height = getHeight(-1);
-		config.resizable = false;
+		config.width = getWidth(3);
+		config.height = getHeight(3);
+		//config.resizable = false;
 		config.addIcon("images/icon.png", FileType.Internal);
 		new LwjglApplication(new Main(), config);
 	}
@@ -25,7 +23,7 @@ public class DesktopLauncher {
 		max = LwjglApplicationConfiguration.getDesktopDisplayMode().width-(LwjglApplicationConfiguration.getDesktopDisplayMode().width%16);
 		output=max;
 		for(int i = 0; i < reduction; i++) {
-			output-=max/16;
+			output-= 0.1*max;
 		}
 		return output;
 	}
@@ -35,7 +33,7 @@ public class DesktopLauncher {
 		max = LwjglApplicationConfiguration.getDesktopDisplayMode().height-(LwjglApplicationConfiguration.getDesktopDisplayMode().height%9);
 		output=max;
 		for(int i = 0; i < reduction; i++) {
-			output-=max/9;
+			output-= 0.1*max;
 		}
 		return output;
 	}

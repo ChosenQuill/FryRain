@@ -8,7 +8,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
@@ -18,8 +17,6 @@ import com.badlogic.gdx.utils.TimeUtils;
 public class GameScreen implements Screen {
 
 	final Main game;
-
-	OrthographicCamera camera;
 	Texture fryImage, bucketImage, grassImage, background;
 	Sound[] crunchSound;
 	Sound lifeLost;
@@ -42,9 +39,6 @@ public class GameScreen implements Screen {
 
 	public GameScreen(final Main game) {
 		this.game = game;
-
-		camera = new OrthographicCamera();
-		camera.setToOrtho(false, 1600, 900);
 		
 		//Loads the image
 		fryImage = Assets.manager.get(Assets.fryImage);
@@ -91,11 +85,11 @@ public class GameScreen implements Screen {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		// Tells camera to update its matrices.
-		camera.update();
+		game.camera.update();
 
 		// tell the SpriteBatch to render in the
 		// coordinate system specified by the camera.
-		game.batch.setProjectionMatrix(camera.combined);
+		game.batch.setProjectionMatrix(game.camera.combined);
 
 		// begin a new batch and draw the bucket and
 		// all fries
@@ -136,8 +130,7 @@ public class GameScreen implements Screen {
 					- ((Long.valueOf(System.currentTimeMillis() - timeLog)).doubleValue() / 1000));
 		}
 		
-		// Mouse Movement
-		/* NonFunctional
+		/*
 		if (Gdx.input.isTouched()) {
 			Vector3 touchPos = new Vector3();
 			touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
@@ -176,22 +169,21 @@ public class GameScreen implements Screen {
 		for (Iterator<Rectangle> iter = fries.iterator(); iter.hasNext();) {
 			Rectangle fry = iter.next();
 			fry.y -= 200 * Gdx.graphics.getDeltaTime();
-			if (fry.y + 30 < 0) {
-				iter.remove();
-				lives--;
-				lifeLost.stop();
-				lifeLost.play(0.4f);
-				if (lives <= 0) {
-					game.setScreen(new EndScreen(game));
-					dispose();
-				}
-			}
 			if (fry.overlaps(bucket)) {
 				score++;
 				crunchSound[lastSound].stop();
 				lastSound = MathUtils.random(0, 7);
 				crunchSound[lastSound].play();
 				iter.remove();
+			} 
+			else if (fry.y + 30 < 0) {
+				iter.remove();
+				lives--;
+				lifeLost.stop();
+				lifeLost.play(0.4f);
+				if (lives <= 0) {
+					exit(new EndScreen(game));
+				}
 			}
 		}
 
@@ -225,18 +217,16 @@ public class GameScreen implements Screen {
 		fries.add(fry);
 		lastDropTime = TimeUtils.nanoTime();
 	}
-
+	
+	public void exit(Screen newScreen) {
+		backgroundMusic.stop();
+		game.setScreen(newScreen);
+		dispose();
+	}
+	
 	@Override
 	public void dispose() {
-		fryImage.dispose();
-		bucketImage.dispose();
-		grassImage.dispose();
-		background.dispose();
-		for (int i = 0; i < 8; i++) {
-			crunchSound[i].dispose();
-		}
-		lifeLost.dispose();
-		backgroundMusic.dispose();
+		
 	}
 
 	@Override
@@ -253,8 +243,7 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
