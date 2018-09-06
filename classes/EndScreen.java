@@ -4,13 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 
 public class EndScreen implements Screen {
 	
 	final Main game;
-	OrthographicCamera camera;
 	static int highScore = 0;
 	String displayText;
 	Sound clapping;
@@ -19,12 +17,8 @@ public class EndScreen implements Screen {
 	public EndScreen(final Main game){
 		this.game = game;
 		
-		camera = new OrthographicCamera();
-		camera.setToOrtho(false, 1600, 900);
-		
 		clapping = Assets.manager.get(Assets.clapping);
 		clapping.play();
-		
 		
 		if(highScore < GameScreen.score) {
 			layout = new GlyphLayout(game.mainFont, "Congradulations!");
@@ -44,8 +38,8 @@ public class EndScreen implements Screen {
 		Gdx.gl.glClearColor(1, 0.647f, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		camera.update();
-		game.batch.setProjectionMatrix(camera.combined);
+		game.camera.update();
+		game.batch.setProjectionMatrix(game.camera.combined);
 
 		game.batch.begin();
 		game.mainFont.draw(game.batch, layout, 1600/2-layout.width/2, 900/2+layout.height + 20);
@@ -54,15 +48,19 @@ public class EndScreen implements Screen {
 		game.batch.end();
 
 		if (Gdx.input.isTouched()) {
-			game.setScreen(new GameScreen(game));
-			dispose();
+			exit(new GameScreen(game));
 		}
 
 	}
 	
+	public void exit(Screen newScreen) {
+		clapping.stop();
+		game.setScreen(newScreen);
+		dispose();
+	}
+	
 	@Override
 	public void dispose() {
-		clapping.dispose();
 	}
 	
 	@Override
