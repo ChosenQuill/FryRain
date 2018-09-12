@@ -28,6 +28,9 @@ i:images/bucket.png:32310:image/png
 i:images/fry.png:6441:image/png
 i:images/grass.png:170259:image/png
 i:images/icon.png:875:image/png
+i:images/Screenshot_1.png:3788259:image/png
+i:images/Screenshot_2.png:543178:image/png
+i:images/Screenshot_3.png:6233014:image/png
 i:images/suredroid.png:28663:image/png
 d:old:0:application/unknown
 b:old/boxy.ttf:25112:application/unknown
