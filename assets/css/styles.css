@@ -1,4 +1,25 @@
 /*-------------
+ 	Game
+-------------*/
+.root {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.auto-horizontal-margin {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.auto-vertical-margin {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+/*-------------
  	General
 -------------*/
 
