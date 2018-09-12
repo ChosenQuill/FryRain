@@ -96,7 +96,7 @@ public class HtmlLauncher extends GwtApplication {
             @Override
             public void onResize(ResizeEvent event) {
                 int clientWidth = event.getWidth();
-                int clientHeight = event.getHeight()-110;
+                int clientHeight = event.getHeight()-65;
                 calculateSize(clientWidth, clientHeight);
                 Window.enableScrolling(width > clientWidth || height > clientHeight);
                 getGraphics().setWindowedMode(width, height);
@@ -120,7 +120,7 @@ public class HtmlLauncher extends GwtApplication {
     @Override
     public GwtApplicationConfiguration getConfig() {
         int clientWidth = Window.getClientWidth();
-        int clientHeight = Window.getClientHeight()-110;
+        int clientHeight = Window.getClientHeight()-65;
         calculateSize(clientWidth, clientHeight);
         
         Window.enableScrolling(width > clientWidth || height > clientHeight);
