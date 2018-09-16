@@ -13,6 +13,8 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
+import com.google.gwt.user.client.ui.HasVerticalAlignment.VerticalAlignmentConstant;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -180,9 +182,14 @@ public class HtmlLauncher extends GwtApplication {
     @Override
     public PreloaderCallback getPreloaderCallback() {
     	VerticalPanel container = new VerticalPanel();
+    	container.setHeight("100%");
+    	container.setWidth("100%");
 		container.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		container.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		Image image = new Image();
 		image.setUrl("suredroid.png");
+		image.setAltText("SureDroid");
+		image.setSize("100vmin", "30vmin"); //10:3
 		container.add(image);
 		getRootPanel().add(container);
     	
