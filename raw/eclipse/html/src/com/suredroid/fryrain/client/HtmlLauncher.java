@@ -182,7 +182,7 @@ public class HtmlLauncher extends GwtApplication {
     	VerticalPanel container = new VerticalPanel();
 		container.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		Image image = new Image();
-		image.setUrl("/suredroid.png");
+		image.setUrl("suredroid.png");
 		container.add(image);
 		getRootPanel().add(container);
     	
